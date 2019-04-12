@@ -58,6 +58,13 @@ def get_label(ent):
         return labels[list(labels.keys())[0]]['value']
 
 
+def relabel(x, labels):
+    try:
+        return labels[x]
+    except KeyError:
+        return x
+
+
 def dump_pickle(path, triplet, n_dump):
     with open(path+'dump{}.pkl'.format(n_dump), 'wb') as f:
         pickle.dump(triplet, f)
