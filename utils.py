@@ -1,8 +1,43 @@
 import pickle
 import bz2
 import json
+import pandas as pd
 
 from tqdm import tqdm
+
+
+def get_labels_dict(path, path_pickle, n_lines):
+    labels = {}
+    fails = []
+
+    dump = bz2.open(path+'latest-all.json.bz2', 'rt')
+    progress_bar = tqdm(total=n_lines)
+
+    line = dump.readline()  # the first line of the file should be "[\n" so we skip it
+    counter = 0  # counter of the number of lines read
+
+    while len(line) > 0:  # while there are lines to read
+        counter += 1
+        line = dump.readline().strip()
+        progress_bar.update(1)
+        if line[-1] == ',':
+            line = line[:-1]  # all lines should end with a ','
+        try:
+            # turn string to json
+            if line[0] != '{' or line[-1] != '}':
+                # then this line is not a proper json file we should deal with it later
+                fails.append(line)
+                continue
+            line = json.loads(line)
+
+            # extract data from json
+            id_ = get_id(line)
+            labels[id_] = get_label(line)
+
+        except:
+            fails.append(line)
+
+    dump_pickle(path_pickle, labels, 0)
 
 
 def concat_claims(claims):
@@ -24,6 +59,7 @@ def to_triplets(ent):
         return []
     claims = concat_claims(ent['claims'])
     triplets = []
+    instanceof = []
     e1 = ent['id']
     for claim in claims:
         mainsnak = claim['mainsnak']
@@ -33,7 +69,9 @@ def to_triplets(ent):
             rel = mainsnak['property']
             e2 = 'Q{}'.format(mainsnak['datavalue']['value']['numeric-id'])
             triplets.append((e1, rel, e2))
-    return triplets
+            if rel == 'P31':
+                instanceof.append(e2)
+    return triplets, instanceof
 
 
 def get_type(ent):
@@ -65,25 +103,38 @@ def relabel(x, labels):
         return x
 
 
+def clean(str_):
+    if str_[:31] == 'http://www.wikidata.org/entity/':
+        return str_[31:]
+    else:
+        print('problem')
+        return ''
+
+
 def dump_pickle(path, triplet, n_dump):
     with open(path+'dump{}.pkl'.format(n_dump), 'wb') as f:
         pickle.dump(triplet, f)
     print('Just made pickle dump number {}'.format(n_dump))
 
 
-def query_wikidata_dump(path, n_lines, query_rel='P31', query_tail='Q5'):
+def intersect(long_list, short_list):
+    for i in long_list:
+        if i in short_list:
+            return True
+    return False
+
+
+def query_wikidata_dump(path, path_pickle, n_lines, query_tails):
     """
     :param path: path to the latest-all.json.bz2 file downloaded from
     https://dumps.wikimedia.org/wikidatawiki/entities/
+    :param path_pickle: path to where pickle files will be written.
     :param n_lines: number of lines of the dump. Fastest way I found was
     `$ bzgrep -c ".*" latest-all.json.bz2`
-    :param query_rel: For each line (entity), we check if it as a fact of the type
-    (id, query_rel, query_tail). Default is 'P31' which is the Wikidata code for 'is instance of'.
-    :param query_tail: For each line (entity), we check if it as a fact of the type
-    (id, query_rel, query_tail). Default is 'Q5' which is the Wikidata code for 'human'.
+    :param query_tails: list of entities to check if instance of.
+    For each line (entity), we check if it as a fact of the type (id, query_rel, query_tail).
     :return:
     """
-    labels = {}
     human_facts = []
     fails = []
 
@@ -109,11 +160,9 @@ def query_wikidata_dump(path, n_lines, query_rel='P31', query_tail='Q5'):
             line = json.loads(line)
 
             # extract data from json
-            id_ = get_id(line)
-            labels[id_] = get_label(line)
-            triplets = to_triplets(line)
+            triplets, instanceof = to_triplets(line)
 
-            if len(triplets) > 0 and (id_, query_rel, query_tail) in triplets:
+            if len(instanceof) > 0 and intersect(instanceof, query_tails):
                 human_facts.extend(triplets)
 
         except:
@@ -122,13 +171,30 @@ def query_wikidata_dump(path, n_lines, query_rel='P31', query_tail='Q5'):
         if counter % 3000000 == 0:
             # dump in pickle to free memory
             n_pickle_dump += 1
-            dump_pickle(path, (labels, human_facts, fails), n_pickle_dump)
+            dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
 
             # empty variables
-            del labels, human_facts, fails
-            labels = {}
+            del human_facts, fails
             human_facts = []
             fails = []
 
     n_pickle_dump += 1
-    dump_pickle(path, (labels, human_facts, fails), n_pickle_dump)
+    dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
+
+
+def concatpkls(n_dump, path_pickle, labels):
+    df = pd.DataFrame(columns=['from', 'rel', 'to'])
+
+    for nd in tqdm(range(n_dump)):
+        with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
+            _, facts, _ = pickle.load(f)
+        df = pd.concat([df, pd.DataFrame(facts, columns=['from', 'rel', 'to'])])
+
+    print(df.shape)
+
+    df = df.drop_duplicates()
+    print(df.shape)
+
+    df['from'] = df['from'].apply(relabel, args=(labels,))
+    df['rel'] = df['rel'].apply(relabel, args=(labels,))
+    df['to'] = df['to'].apply(relabel, args=(labels,))
