@@ -182,12 +182,12 @@ def query_wikidata_dump(path, path_pickle, n_lines, query_tails):
     dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
 
 
-def concatpkls(n_dump, path_pickle, labels):
+def concatpkls(n_dump, path_pickle, labels=None):
     df = pd.DataFrame(columns=['from', 'rel', 'to'])
 
     for nd in tqdm(range(n_dump)):
         with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
-            _, facts, _ = pickle.load(f)
+            facts, _ = pickle.load(f)
         df = pd.concat([df, pd.DataFrame(facts, columns=['from', 'rel', 'to'])])
 
     print(df.shape)
@@ -195,6 +195,9 @@ def concatpkls(n_dump, path_pickle, labels):
     df = df.drop_duplicates()
     print(df.shape)
 
-    df['from'] = df['from'].apply(relabel, args=(labels,))
-    df['rel'] = df['rel'].apply(relabel, args=(labels,))
-    df['to'] = df['to'].apply(relabel, args=(labels,))
+    if labels is not None:
+        df['from'] = df['from'].apply(relabel, args=(labels,))
+        df['rel'] = df['rel'].apply(relabel, args=(labels,))
+        df['to'] = df['to'].apply(relabel, args=(labels,))
+
+    return df
