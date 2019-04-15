@@ -201,14 +201,14 @@ def count_true_fails(fails):
 
 
 def concatpkls(n_dump, path_pickle, labels=None, notebook=False):
-    df = pd.DataFrame(columns=['from', 'rel', 'to'])
+    df = pd.DataFrame(columns=['headEntity', 'relation', 'tailEntity'])
 
     for nd in tqdm_notebook(range(n_dump)):
         with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
             facts, fails = pickle.load(f)
             if count_true_fails(fails) > 0:
                 print('{} true fails'.format(len(real_fails)))
-        df = pd.concat([df, pd.DataFrame(facts, columns=['from', 'rel', 'to'])])
+        df = pd.concat([df, pd.DataFrame(facts, columns=['headEntity', 'relation', 'tailEntity'])])
 
     print(df.shape)
 
@@ -216,8 +216,11 @@ def concatpkls(n_dump, path_pickle, labels=None, notebook=False):
     print(df.shape)
 
     if labels is not None:
-        df['from'] = df['from'].apply(relabel, args=(labels,))
-        df['rel'] = df['rel'].apply(relabel, args=(labels,))
-        df['to'] = df['to'].apply(relabel, args=(labels,))
+        df['headEntity'] = df['headEntity'].apply(relabel, args=(labels,))
+        df['relation'] = df['relation'].apply(relabel, args=(labels,))
+        df['tailEntity'] = df['tailEntity'].apply(relabel, args=(labels,))
 
     return df
+
+def build_dataset():
+    
