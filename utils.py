@@ -3,7 +3,7 @@ import bz2
 import json
 import pandas as pd
 
-from tqdm import tqdm
+from tqdm import tqdm, tqdm_notebook
 
 
 def get_labels_dict(path, path_pickle, n_lines):
@@ -20,9 +20,12 @@ def get_labels_dict(path, path_pickle, n_lines):
         counter += 1
         line = dump.readline().strip()
         progress_bar.update(1)
-        if line[-1] == ',':
-            line = line[:-1]  # all lines should end with a ','
+        if len(line) == 0:
+            break
         try:
+            if line[-1] == ',':
+                line = line[:-1]  # all lines should end with a ','
+        
             # turn string to json
             if line[0] != '{' or line[-1] != '}':
                 # then this line is not a proper json file we should deal with it later
@@ -146,12 +149,16 @@ def query_wikidata_dump(path, path_pickle, n_lines, query_tails):
     n_pickle_dump = 0
 
     while len(line) > 0:  # while there are lines to read
+        
         counter += 1
         line = dump.readline().strip()
         progress_bar.update(1)
-        if line[-1] == ',':
-            line = line[:-1]  # all lines should end with a ','
+        if len(line) == 0:
+            break
         try:
+            if line[-1] == ',':
+                line = line[:-1]  # all lines should end with a ','
+        
             # turn string to json
             if line[0] != '{' or line[-1] != '}':
                 # then this line is not a proper json file we should deal with it later
@@ -181,13 +188,26 @@ def query_wikidata_dump(path, path_pickle, n_lines, query_tails):
     n_pickle_dump += 1
     dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
 
+    
+def count_true_fails(fails):
+    true_fails = 0
+    for f in fails:
+        try :
+            if len(f['claims']) > 0:
+                true_fails += 1
+        except:
+            print(f)
+    return true_fails
 
-def concatpkls(n_dump, path_pickle, labels=None):
+
+def concatpkls(n_dump, path_pickle, labels=None, notebook=False):
     df = pd.DataFrame(columns=['from', 'rel', 'to'])
 
-    for nd in tqdm(range(n_dump)):
+    for nd in tqdm_notebook(range(n_dump)):
         with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
-            facts, _ = pickle.load(f)
+            facts, fails = pickle.load(f)
+            if count_true_fails(fails) > 0:
+                print('{} true fails'.format(len(real_fails)))
         df = pd.concat([df, pd.DataFrame(facts, columns=['from', 'rel', 'to'])])
 
     print(df.shape)
