@@ -103,7 +103,7 @@ def get_label(ent):
 def relabel(x, labels):
     try:
         l = labels[x]
-        if ':' not in l:
+        if ':' in l:
             return l[l.index(':')+1:]
         else:
             return l
@@ -262,8 +262,9 @@ def build_dataset(path, labels):
     n_files = len([name for name in os.listdir(path_pickle) if name[-4:] == '.pkl'])
     df = concatpkls(n_files, path_pickle)
 
-    tmp = list(set(df['headEntity'].unique()).union(set(df['tailEntity'].unique())))
-    ent2ix = {ent: i for i, ent in enumerate(tmp)}
+    ents = list(df['headEntity'].unique())
+    feats = list(set(df['tailEntity'].unique()) - set(ents))
+    ent2ix = {ent: i for i, ent in enumerate(ents + feats)}
     ix2ent = {i: ent for ent, i in ent2ix.items()}
 
     tmp = df['relation'].unique()
