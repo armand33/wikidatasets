@@ -2,6 +2,7 @@ import pickle
 import bz2
 import json
 import pandas as pd
+import os
 
 from tqdm import tqdm, tqdm_notebook
 
@@ -200,7 +201,7 @@ def count_true_fails(fails):
     return true_fails
 
 
-def concatpkls(n_dump, path_pickle, labels=None, notebook=False):
+def concatpkls(n_dump, path_pickle, labels=None):
     df = pd.DataFrame(columns=['headEntity', 'relation', 'tailEntity'])
 
     for nd in tqdm_notebook(range(n_dump)):
@@ -222,5 +223,66 @@ def concatpkls(n_dump, path_pickle, labels=None, notebook=False):
 
     return df
 
-def build_dataset():
-    
+
+def write_csv(df, name):
+    with open(name, 'w') as f:
+        f.write('# Entities: {} \t Relations: {} \t Facts: {}\n'.format(
+            len(set(df.headEntity).union(set(df.tailEntity))),
+            df.relation.nunique(), len(df)))
+        f.write('# headEntity \t tailEntity \t relation\n')
+        df.to_csv(f, sep='\t', header=False, index=False)
+
+
+def write_ent_dict(df, name):
+    with open(name, 'w') as f:
+        f.write('# Entities: {}\n'.format(len(df)))
+        f.write('# entityID \t wikidataID \t label\n')
+        df.to_csv(f, sep='\t', header=False, index=False)
+
+
+def write_rel_dict(df, name):
+    with open(name, 'w') as f:
+        f.write('# Relations: {}\n'.format(len(df)))
+        f.write('# relationID \t wikidataID \t label\n')
+        df.to_csv(f, sep='\t', header=False, index=False)
+
+
+def build_dataset(path, labels):
+    """
+    Print dataset in path (includes 4 files : edges (kg), features, entities, relations.
+    :param path: path to the directory where there should already be a pickle/ directory.
+    In the latter directory, all the .pkl files will be concatenated into one dataset.
+    :param labels: dictionary coming from the function get_labels_dict
+    """
+    path_pickle = path + 'pickles/'
+    n_files = len([name for name in os.listdir(path_pickle) if name[-4:] == '.pkl'])
+    df = concatpkls(n_files, path_pickle)
+
+    tmp = list(set(df['headEntity'].unique()).union(set(df['tailEntity'].unique())))
+    ent2ix = {ent: i for i, ent in enumerate(tmp)}
+    ix2ent = {i: ent for ent, i in ent2ix.items()}
+
+    tmp = df['relation'].unique()
+    rel2ix = {rel: i for i, rel in enumerate(tmp)}
+    ix2rel = {i: rel for rel, i in rel2ix.items()}
+
+    df['headEntity'] = df['headEntity'].apply(lambda x: ent2ix[x])
+    df['tailEntity'] = df['tailEntity'].apply(lambda x: ent2ix[x])
+    df['relation'] = df['relation'].apply(lambda x: rel2ix[x])
+
+    entities = pd.DataFrame([[i, ix2ent[i]] for i in range(len(ix2ent))],
+                            columns=['entityID', 'wikidataID'])
+    entities['label'] = entities['wikidataID'].apply(relabel, args=(labels,))
+
+    relations = pd.DataFrame([[i, ix2rel[i]] for i in range(len(ix2rel))],
+                             columns=['relationID', 'wikidataID'])
+    relations['label'] = relations['wikidataID'].apply(relabel, args=(labels,))
+
+    edges_mask = df.tailEntity.isin(df['headEntity'].unique())
+    edges = df.loc[edges_mask, ['headEntity', 'tailEntity', 'relation']]
+    features = df.loc[~edges_mask, ['headEntity', 'tailEntity', 'relation']]
+
+    write_csv(edges, path + 'edges.txt')
+    write_csv(features, path + 'features.txt')
+    write_ent_dict(entities, path + 'entities.txt')
+    write_rel_dict(relations, path + 'relations.txt')
