@@ -102,7 +102,11 @@ def get_label(ent):
 
 def relabel(x, labels):
     try:
-        return labels[x]
+        l = labels[x]
+        if ':' not in l:
+            return l[l.index(':')+1:]
+        else:
+            return l
     except KeyError:
         return x
 
