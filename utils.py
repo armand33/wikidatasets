@@ -213,14 +213,11 @@ def concatpkls(n_dump, path_pickle, labels=None):
     for nd in tqdm_notebook(range(n_dump)):
         with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
             facts, fails = pickle.load(f)
-            if count_true_fails(fails) > 0:
-                print('{} true fails'.format(len(real_fails)))
+            true_fails = count_true_fails(fails)
+            if true_fails > 0:
+                print('{} true fails'.format(true_fails))
         df = pd.concat([df, pd.DataFrame(facts, columns=['headEntity', 'relation', 'tailEntity'])])
-
-    print(df.shape)
-
     df = df.drop_duplicates()
-    print(df.shape)
 
     if labels is not None:
         df['headEntity'] = df['headEntity'].apply(relabel, args=(labels,))
