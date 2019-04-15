@@ -198,6 +198,8 @@ def count_true_fails(fails):
     true_fails = 0
     for f in fails:
         try :
+            if str(f) == ']\n':
+                continue  # in this case it's the last line of the original dump file
             if len(f['claims']) > 0:
                 true_fails += 1
         except:
