@@ -6,7 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 from utils import get_pickle_path, write_to_pickle
 from utils import get_id, get_label, to_triplets, intersect, to_json
-from utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, relabel
+from utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, write_readme, relabel
 
 
 def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_labels=False):
@@ -82,6 +82,8 @@ def build_dataset(path, labels, return_=False):
     In the latter directory, all the .pkl files will be concatenated into one dataset.
     :param labels: dictionary coming from the function get_labels_dict
     """
+    if path[-1] != '/':
+        path = path+'/'
     path_pickle = path + 'pickles/'
     n_files = len([name for name in os.listdir(path_pickle) if name[-4:] == '.pkl'])
     df = concatpkls(n_files, path_pickle)
@@ -115,6 +117,13 @@ def build_dataset(path, labels, return_=False):
     write_csv(features, path + 'features.txt')
     write_ent_dict(entities, path + 'entities.txt')
     write_rel_dict(relations, path + 'relations.txt')
+    write_readme(path+'readme.txt',
+                 n_core_ents=edges['headEntity'].nunique(),
+                 n_feat_ents=features['tailEntity'].nunique(),
+                 n_core_rels=edges['relation'].nunique(),
+                 n_feat_rels=features['relation'].nunique(),
+                 n_core_facts=len(edges),
+                 n_feat_facts=len(features))
 
     if return_:
         return edges, features, entities, relations

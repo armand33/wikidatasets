@@ -169,3 +169,19 @@ def write_rel_dict(df, name):
         f.write('# Relations: {}\n'.format(len(df)))
         f.write('# relationID \t wikidataID \t label\n')
         df.to_csv(f, sep='\t', header=False, index=False)
+
+
+def write_readme(name, n_core_ents, n_feat_ents,
+                 n_core_rels, n_feat_rels,
+                 n_core_facts, n_feat_facts):
+    with open(name, 'w') as f:
+        f.write("Here are some meta data about this data set:\n")
+        f.write("Core entities: {}".format(n_core_ents))
+        f.write("Feature entities: {}".format(n_feat_ents))
+        f.write("Core relations: {} (number of different relations involving only core\
+         entities)".format(n_core_rels))
+        f.write("Feature relations: {} (number of different relations from core entities to feature\
+         entities)".format(n_feat_rels))
+        f.write("Core facts: {} (facts involving only core entities)".format(n_core_facts))
+        f.write("Feature facts : {} (facts linking core entities to their feature\
+         entities)".format(n_feat_facts))
