@@ -171,17 +171,14 @@ def write_rel_dict(df, name):
         df.to_csv(f, sep='\t', header=False, index=False)
 
 
-def write_readme(name, n_core_ents, n_feat_ents,
-                 n_core_rels, n_feat_rels,
-                 n_core_facts, n_feat_facts):
+def write_readme(name, n_core_ents, n_attrib_ents,
+                 n_core_rels, n_attrib_rels,
+                 n_core_facts, n_attrib_facts):
     with open(name, 'w') as f:
         f.write("Here are some meta data about this data set:\n")
         f.write("Core entities: {}\n".format(n_core_ents))
-        f.write("Feature entities: {}\n".format(n_feat_ents))
-        f.write("Core relations: {} (number of different relations involving only core\
-         entities)\n".format(n_core_rels))
-        f.write("Feature relations: {} (number of different relations from core entities to feature\
-         entities)\n".format(n_feat_rels))
+        f.write("Attribute entities: {}\n".format(n_attrib_ents))
+        f.write("Core relations: {} (number of different relations involving only core entities)\n".format(n_core_rels))
+        f.write("Attribute relations: {} (number of different relations from core entities to attribute entities)\n".format(n_attrib_rels))
         f.write("Core facts: {} (facts involving only core entities)\n".format(n_core_facts))
-        f.write("Feature facts : {} (facts linking core entities to their feature\
-         entities)\n".format(n_feat_facts))
+        f.write("Attribute facts : {} (facts linking core entities to their attribute entities)\n".format(n_attrib_facts))

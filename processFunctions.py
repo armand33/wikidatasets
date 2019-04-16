@@ -77,7 +77,7 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
 
 def build_dataset(path, labels, return_=False):
     """
-    Print dataset in path (includes 4 files : edges (kg), features, entities, relations.
+    Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
     :param path: path to the directory where there should already be a pickle/ directory.
     In the latter directory, all the .pkl files will be concatenated into one dataset.
     :param labels: dictionary coming from the function get_labels_dict
@@ -111,19 +111,19 @@ def build_dataset(path, labels, return_=False):
 
     edges_mask = df.tailEntity.isin(df['headEntity'].unique())
     edges = df.loc[edges_mask, ['headEntity', 'tailEntity', 'relation']]
-    features = df.loc[~edges_mask, ['headEntity', 'tailEntity', 'relation']]
+    attributes = df.loc[~edges_mask, ['headEntity', 'tailEntity', 'relation']]
 
     write_csv(edges, path + 'edges.txt')
-    write_csv(features, path + 'features.txt')
+    write_csv(attributes, path + 'attributes.txt')
     write_ent_dict(entities, path + 'entities.txt')
     write_rel_dict(relations, path + 'relations.txt')
     write_readme(path+'readme.txt',
-                 n_core_ents=edges['headEntity'].nunique(),
-                 n_feat_ents=features['tailEntity'].nunique(),
+                 n_core_ents=attributes['headEntity'].nunique(),
+                 n_attrib_ents=attributes['tailEntity'].nunique(),
                  n_core_rels=edges['relation'].nunique(),
-                 n_feat_rels=features['relation'].nunique(),
+                 n_attrib_rels=attributes['relation'].nunique(),
                  n_core_facts=len(edges),
-                 n_feat_facts=len(features))
+                 n_attrib_facts=len(attributes))
 
     if return_:
-        return edges, features, entities, relations
+        return edges, attributes, entities, relations
