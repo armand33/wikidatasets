@@ -1,47 +1,22 @@
 import pickle
-import bz2
 import json
 import pandas as pd
 import os
 
-from tqdm import tqdm, tqdm_notebook
+from exceptions import ParsingException
+from tqdm import tqdm_notebook
 
 
-def get_labels_dict(path, path_pickle, n_lines):
-    labels = {}
-    fails = []
+def to_json(line):
+    if line[-1] == ',':
+        line = line[:-1]  # all lines should end with a ','
 
-    dump = bz2.open(path+'latest-all.json.bz2', 'rt')
-    progress_bar = tqdm(total=n_lines)
+    # turn string to json
+    if line[0] != '{' or line[-1] != '}':
+        # then this line is not a proper json file we should deal with it later
+        raise ParsingException
 
-    line = dump.readline()  # the first line of the file should be "[\n" so we skip it
-    counter = 0  # counter of the number of lines read
-
-    while len(line) > 0:  # while there are lines to read
-        counter += 1
-        line = dump.readline().strip()
-        progress_bar.update(1)
-        if len(line) == 0:
-            break
-        try:
-            if line[-1] == ',':
-                line = line[:-1]  # all lines should end with a ','
-        
-            # turn string to json
-            if line[0] != '{' or line[-1] != '}':
-                # then this line is not a proper json file we should deal with it later
-                fails.append(line)
-                continue
-            line = json.loads(line)
-
-            # extract data from json
-            id_ = get_id(line)
-            labels[id_] = get_label(line)
-
-        except:
-            fails.append(line)
-
-    dump_pickle(path_pickle, labels, 0)
+    return json.loads(line)
 
 
 def concat_claims(claims):
@@ -102,11 +77,11 @@ def get_label(ent):
 
 def relabel(x, labels):
     try:
-        l = labels[x]
-        if ':' in l:
-            return l[l.index(':')+1:]
+        lab = labels[x]
+        if ':' in lab:
+            return lab[lab.index(':')+1:]
         else:
-            return l
+            return lab
     except KeyError:
         return x
 
@@ -119,85 +94,31 @@ def clean(str_):
         return ''
 
 
-def dump_pickle(path, triplet, n_dump):
-    with open(path+'dump{}.pkl'.format(n_dump), 'wb') as f:
-        pickle.dump(triplet, f)
-    print('Just made pickle dump number {}'.format(n_dump))
+def get_pickle_path(path):
+    if path[-1] != '/':
+        path = path+'/'
+    pickle_path = path + 'pickles/'
+    if not os.path.exists(pickle_path):
+        os.makedirs(pickle_path)
+    return pickle_path
+
+
+def write_to_pickle(pickle_path, facts, fails, n_pickle_dump):
+    n_pickle_dump += 1
+    pickle.dump((facts, fails),
+                open(pickle_path + 'pickle{}.pkl'.format(n_pickle_dump), 'wb'))
+    print('Just made pickle dump number {}'.format(n_pickle_dump))
+    return [], []
 
 
 def intersect(long_list, short_list):
-    for i in long_list:
-        if i in short_list:
-            return True
-    return False
-
-
-def query_wikidata_dump(path, path_pickle, n_lines, query_tails):
-    """
-    :param path: path to the latest-all.json.bz2 file downloaded from
-    https://dumps.wikimedia.org/wikidatawiki/entities/
-    :param path_pickle: path to where pickle files will be written.
-    :param n_lines: number of lines of the dump. Fastest way I found was
-    `$ bzgrep -c ".*" latest-all.json.bz2`
-    :param query_tails: list of entities to check if instance of.
-    For each line (entity), we check if it as a fact of the type (id, query_rel, query_tail).
-    :return:
-    """
-    human_facts = []
-    fails = []
-
-    dump = bz2.open(path+'latest-all.json.bz2', 'rt')
-    progress_bar = tqdm(total=n_lines)
-
-    line = dump.readline()  # the first line of the file should be "[\n" so we skip it
-    counter = 0  # counter of the number of lines read
-    n_pickle_dump = 0
-
-    while len(line) > 0:  # while there are lines to read
-        
-        counter += 1
-        line = dump.readline().strip()
-        progress_bar.update(1)
-        if len(line) == 0:
-            break
-        try:
-            if line[-1] == ',':
-                line = line[:-1]  # all lines should end with a ','
-        
-            # turn string to json
-            if line[0] != '{' or line[-1] != '}':
-                # then this line is not a proper json file we should deal with it later
-                fails.append(line)
-                continue
-            line = json.loads(line)
-
-            # extract data from json
-            triplets, instanceof = to_triplets(line)
-
-            if len(instanceof) > 0 and intersect(instanceof, query_tails):
-                human_facts.extend(triplets)
-
-        except:
-            fails.append(line)
-
-        if counter % 3000000 == 0:
-            # dump in pickle to free memory
-            n_pickle_dump += 1
-            dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
-
-            # empty variables
-            del human_facts, fails
-            human_facts = []
-            fails = []
-
-    n_pickle_dump += 1
-    dump_pickle(path_pickle, (human_facts, fails), n_pickle_dump)
+    return len(set(long_list).intersection(set(short_list))) > 0
 
     
 def count_true_fails(fails):
     true_fails = 0
     for f in fails:
-        try :
+        try:
             if str(f) == ']':
                 continue  # in this case it's the last line of the original dump file
             if len(f['claims']) > 0:
@@ -248,45 +169,3 @@ def write_rel_dict(df, name):
         f.write('# Relations: {}\n'.format(len(df)))
         f.write('# relationID \t wikidataID \t label\n')
         df.to_csv(f, sep='\t', header=False, index=False)
-
-
-def build_dataset(path, labels):
-    """
-    Print dataset in path (includes 4 files : edges (kg), features, entities, relations.
-    :param path: path to the directory where there should already be a pickle/ directory.
-    In the latter directory, all the .pkl files will be concatenated into one dataset.
-    :param labels: dictionary coming from the function get_labels_dict
-    """
-    path_pickle = path + 'pickles/'
-    n_files = len([name for name in os.listdir(path_pickle) if name[-4:] == '.pkl'])
-    df = concatpkls(n_files, path_pickle)
-
-    ents = list(df['headEntity'].unique())
-    feats = list(set(df['tailEntity'].unique()) - set(ents))
-    ent2ix = {ent: i for i, ent in enumerate(ents + feats)}
-    ix2ent = {i: ent for ent, i in ent2ix.items()}
-
-    tmp = df['relation'].unique()
-    rel2ix = {rel: i for i, rel in enumerate(tmp)}
-    ix2rel = {i: rel for rel, i in rel2ix.items()}
-
-    df['headEntity'] = df['headEntity'].apply(lambda x: ent2ix[x])
-    df['tailEntity'] = df['tailEntity'].apply(lambda x: ent2ix[x])
-    df['relation'] = df['relation'].apply(lambda x: rel2ix[x])
-
-    entities = pd.DataFrame([[i, ix2ent[i]] for i in range(len(ix2ent))],
-                            columns=['entityID', 'wikidataID'])
-    entities['label'] = entities['wikidataID'].apply(relabel, args=(labels,))
-
-    relations = pd.DataFrame([[i, ix2rel[i]] for i in range(len(ix2rel))],
-                             columns=['relationID', 'wikidataID'])
-    relations['label'] = relations['wikidataID'].apply(relabel, args=(labels,))
-
-    edges_mask = df.tailEntity.isin(df['headEntity'].unique())
-    edges = df.loc[edges_mask, ['headEntity', 'tailEntity', 'relation']]
-    features = df.loc[~edges_mask, ['headEntity', 'tailEntity', 'relation']]
-
-    write_csv(edges, path + 'edges.txt')
-    write_csv(features, path + 'features.txt')
-    write_ent_dict(entities, path + 'entities.txt')
-    write_rel_dict(relations, path + 'relations.txt')
