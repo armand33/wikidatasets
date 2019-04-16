@@ -63,7 +63,7 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
             else:
                 fails.append(line)
 
-        if counter % 30 == 0:
+        if counter % 3000000 == 0:
             # dump in pickle to free memory
             if collect_facts:
                 n_pickle_dump += 1

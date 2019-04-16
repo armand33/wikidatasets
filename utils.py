@@ -176,12 +176,12 @@ def write_readme(name, n_core_ents, n_feat_ents,
                  n_core_facts, n_feat_facts):
     with open(name, 'w') as f:
         f.write("Here are some meta data about this data set:\n")
-        f.write("Core entities: {}".format(n_core_ents))
-        f.write("Feature entities: {}".format(n_feat_ents))
+        f.write("Core entities: {}\n".format(n_core_ents))
+        f.write("Feature entities: {}\n".format(n_feat_ents))
         f.write("Core relations: {} (number of different relations involving only core\
-         entities)".format(n_core_rels))
+         entities)\n".format(n_core_rels))
         f.write("Feature relations: {} (number of different relations from core entities to feature\
-         entities)".format(n_feat_rels))
-        f.write("Core facts: {} (facts involving only core entities)".format(n_core_facts))
+         entities)\n".format(n_feat_rels))
+        f.write("Core facts: {} (facts involving only core entities)\n".format(n_core_facts))
         f.write("Feature facts : {} (facts linking core entities to their feature\
-         entities)".format(n_feat_facts))
+         entities)\n".format(n_feat_facts))
