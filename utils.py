@@ -4,7 +4,7 @@ import pandas as pd
 import os
 
 from exceptions import ParsingException
-from tqdm import tqdm_notebook
+from tqdm import tqdm
 
 
 def to_json(line):
@@ -130,7 +130,7 @@ def count_true_fails(fails):
 def concatpkls(n_dump, path_pickle, labels=None):
     df = pd.DataFrame(columns=['headEntity', 'relation', 'tailEntity'])
 
-    for nd in tqdm_notebook(range(n_dump)):
+    for nd in tqdm(range(n_dump)):
         with open(path_pickle + 'pickle{}.pkl'.format(nd + 1), 'rb') as f:
             facts, fails = pickle.load(f)
             true_fails = count_true_fails(fails)
