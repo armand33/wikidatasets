@@ -104,7 +104,6 @@ def get_pickle_path(path):
 
 
 def write_to_pickle(pickle_path, facts, fails, n_pickle_dump):
-    n_pickle_dump += 1
     pickle.dump((facts, fails),
                 open(pickle_path + 'pickle{}.pkl'.format(n_pickle_dump), 'wb'))
     print('Just made pickle dump number {}'.format(n_pickle_dump))
