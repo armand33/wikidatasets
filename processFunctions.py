@@ -11,6 +11,10 @@ from utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, write_r
 
 
 def get_test_entities(subject):
+    """
+    :param subject: String describing the subject (e.g. Q5 for human)
+    :return: list of WikiData IDs of entities which are subclasses of the subject.
+    """
     endpoint_url = "https://query.wikidata.org/sparql"
     query = """SELECT ?item WHERE {?item wdt:P279* wd:""" + subject + """ .}"""
 
