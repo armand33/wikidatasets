@@ -6,6 +6,15 @@ import os
 from exceptions import ParsingException
 from tqdm import tqdm
 
+from SPARQLWrapper import SPARQLWrapper, JSON
+
+
+def get_results(endpoint_url, query):
+    sparql = SPARQLWrapper(endpoint_url)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(JSON)
+    return sparql.query().convert()
+
 
 def to_json(line):
     if line[-1] == ',':
