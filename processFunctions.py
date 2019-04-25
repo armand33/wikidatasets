@@ -4,9 +4,19 @@ import os
 import pandas as pd
 
 from tqdm import tqdm
+from utils import get_results, clean
 from utils import get_pickle_path, write_to_pickle
 from utils import get_id, get_label, to_triplets, intersect, to_json
 from utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, write_readme, relabel
+
+
+def get_test_entities(subject):
+    endpoint_url = "https://query.wikidata.org/sparql"
+    query = """SELECT ?item WHERE {?item wdt:P279* wd:""" + subject + """ .}"""
+
+    results = get_results(endpoint_url, query)
+
+    return [clean(result['item']['value']) for result in results['results']['bindings']]
 
 
 def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_labels=False):
