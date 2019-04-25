@@ -105,7 +105,7 @@ def get_pickle_path(path):
 
 def write_to_pickle(pickle_path, facts, fails, n_pickle_dump):
     pickle.dump((facts, fails),
-                open(pickle_path + 'pickle{}.pkl'.format(n_pickle_dump), 'wb'))
+                open(pickle_path + 'dump{}.pkl'.format(n_pickle_dump), 'wb'))
     print('Just made pickle dump number {}'.format(n_pickle_dump))
     return [], []
 
@@ -131,7 +131,7 @@ def concatpkls(n_dump, path_pickle, labels=None):
     df = pd.DataFrame(columns=['headEntity', 'relation', 'tailEntity'])
 
     for nd in tqdm(range(n_dump)):
-        with open(path_pickle + 'pickle{}.pkl'.format(nd + 1), 'rb') as f:
+        with open(path_pickle + 'dump{}.pkl'.format(nd + 1), 'rb') as f:
             facts, fails = pickle.load(f)
             true_fails = count_true_fails(fails)
             if true_fails > 0:
