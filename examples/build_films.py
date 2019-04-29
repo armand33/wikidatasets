@@ -4,7 +4,7 @@ from processFunctions import get_subclasses, query_wikidata_dump, build_dataset
 
 path = '/home/aboschin/datasets/wikidata/films/'
 dump_path = '/home/public/wikidata/latest-all.json.bz2'
-n_lines = 70000000
+n_lines = 56208653
 
 test_entities = get_subclasses('Q11424')  # sequence of images that give the impression of movement
 
