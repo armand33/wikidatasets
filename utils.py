@@ -190,3 +190,37 @@ def write_readme(name, n_core_ents, n_attrib_ents,
         f.write("Attribute relations: {} (number of different relations from core entities to attribute entities)\n".format(n_attrib_rels))
         f.write("Core facts: {} (facts involving only core entities)\n".format(n_core_facts))
         f.write("Attribute facts : {} (facts linking core entities to their attribute entities)\n".format(n_attrib_facts))
+
+
+def load_data_labels(path, attributes=False, return_dicts=False):
+    if attributes:
+        df = pd.read_csv(path + 'attributes.txt', sep='\t', header=1,
+                         names=['headEntity', 'tailEntity', 'relation'])
+    else:
+        df = pd.read_csv(path + 'edges.txt', sep='\t', header=1,
+                         names=['headEntity', 'tailEntity', 'relation'])
+
+    entities = pd.read_csv(path + 'entities.txt', sep='\t', header=1,
+                           names=['entityID', 'wikidataID', 'label'])
+    relations = pd.read_csv(path + 'relations.txt', sep='\t', header=1,
+                            names=['relationID', 'wikidataID', 'label'])
+
+    df = pd.merge(left=df, right=entities[['entityID', 'label']], left_on='headEntity',
+                  right_on='entityID')
+    df.drop('entityID', axis=1, inplace=True)
+    df.columns = list(df.columns[:-1]) + ['headLabel']
+
+    df = pd.merge(left=df, right=entities[['entityID', 'label']], left_on='tailEntity',
+                  right_on='entityID')
+    df.drop('entityID', axis=1, inplace=True)
+    df.columns = list(df.columns[:-1]) + ['tailLabel']
+
+    df = pd.merge(left=df, right=relations[['relationID', 'label']], left_on='relation',
+                  right_on='relationID')
+    df.drop('relationID', axis=1, inplace=True)
+    df.columns = list(df.columns[:-1]) + ['relationLabel']
+
+    if return_dicts:
+        return df, entities, relations
+
+    return df
