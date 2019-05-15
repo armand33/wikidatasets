@@ -9,7 +9,7 @@ Data sets are available on this [page](https://graphs.telecom-paristech.fr/Home_
 The applicable citation of the work will soon be published here.
 
 ### Usage
-See example scripts such as [build_companies.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py).
+See example scripts such as [build_humans.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py).
 
 ### Requirements
 The code was developed and tested on Python 3.7. The following Python libraries are required.
