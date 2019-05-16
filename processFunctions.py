@@ -89,12 +89,14 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
         pickle.dump(labels, open(path + 'labels.pkl', 'wb'))
 
 
-def build_dataset(path, labels, return_=False):
+def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
     """
     Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
     :param path: path to the directory where there should already be a pickle/ directory.
     In the latter directory, all the .pkl files will be concatenated into one dataset.
     :param labels: dictionary coming from the function get_labels_dict
+    :param return_: bool
+    :param dump_date: str
     """
     if path[-1] != '/':
         path = path+'/'
@@ -137,7 +139,8 @@ def build_dataset(path, labels, return_=False):
                  n_core_rels=edges['relation'].nunique(),
                  n_attrib_rels=attributes['relation'].nunique(),
                  n_core_facts=len(edges),
-                 n_attrib_facts=len(attributes))
+                 n_attrib_facts=len(attributes),
+                 dump_date=dump_date)
 
     if return_:
         return edges, attributes, entities, relations

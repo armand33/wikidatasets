@@ -181,8 +181,10 @@ def write_rel_dict(df, name):
 
 def write_readme(name, n_core_ents, n_attrib_ents,
                  n_core_rels, n_attrib_rels,
-                 n_core_facts, n_attrib_facts):
+                 n_core_facts, n_attrib_facts,
+                 dump_date):
     with open(name, 'w') as f:
+        f.write('Built with WikiData dump from {}.\n'.format(dump_date))
         f.write("Here are some meta data about this data set:\n")
         f.write("Core entities: {}\n".format(n_core_ents))
         f.write("Attribute entities: {}\n".format(n_attrib_ents))
