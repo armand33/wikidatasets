@@ -7,6 +7,7 @@ Data sets are available on this [page](https://graphs.telecom-paristech.fr/Home_
 
 ### Citations
 If you find this code useful in your research, please consider citing our [paper](https://arxiv.org/abs/1906.04536):
+```  
   @misc{arm2019wikidatasets,
       title={WikiDataSets : Standardized sub-graphs from WikiData},
       author={Armand Boschin},
@@ -15,6 +16,7 @@ If you find this code useful in your research, please consider citing our [paper
       archivePrefix={arXiv},
       primaryClass={cs.LG}
   }
+```
 
 ### Usage
 See example scripts such as [build_humans.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py).
