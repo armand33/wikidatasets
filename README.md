@@ -19,15 +19,23 @@ If you find this code useful in your research, please consider citing our [paper
 ```
 
 ### Usage
-See example scripts such as [build_humans.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py).
+The `example/` folder contains examples of scripts to create datasets (e.g. [build_humans.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py)).
+Such a script should be placed in the main directory
+
+This script 
 
 ### Requirements
 The code was developed and tested on Python 3.7. The following Python libraries are required.
-* pandas 
+
+Dependencies:
+* [pandas](https://pypi.org/project/pandas/)
+* [tqdm](https://pypi.org/project/tqdm/)
+* [SPARQLWrapper](https://pypi.org/project/SPARQLWrapper/)
+
+Standard Python library :
+* bz2
 * pickle
 * json
-* tqdm
-* bz2
 
 ## Author:
 * **Armand Boschin** - *Initial work* - [Github](https://github.com/armand33)
