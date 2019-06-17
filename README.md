@@ -20,7 +20,7 @@ If you find this code useful in your research, please consider citing our [paper
 
 ### Usage
 The `example/` folder contains examples of scripts to create datasets (e.g. [build_humans.py](https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py)).
-Such a script should be placed in the main directory
+Such scripts should be placed in the main directory (along with `utils.py`, `processFunctions.py`) and hard-coded paths should be tuned to match your installation.
 
 This script 
 
