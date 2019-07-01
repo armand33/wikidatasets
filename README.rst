@@ -28,7 +28,7 @@ Code to parse WikiData dumps into smaller knowledge graphs (e.g. graph of human 
 
 Data Sets
 ---------
-Data sets are available on this [page](https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section).
+Data sets are available on this `page <https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section)>'_.
 
 Features
 --------
