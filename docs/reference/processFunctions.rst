@@ -4,9 +4,6 @@
 Process Functions
 *****************
 
-
-Process functions include :
-
 .. currentmodule:: wikidatasets.processFunctions
 
 
