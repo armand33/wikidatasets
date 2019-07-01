@@ -25,7 +25,6 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
     ],
     description="Code to parse WikiData dumps into smaller knowledge graphs (e.g. graph of human entities).",
