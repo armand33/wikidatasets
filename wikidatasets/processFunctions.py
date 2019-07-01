@@ -4,10 +4,10 @@ import os
 import pandas as pd
 
 from tqdm import tqdm
-from utils import get_results, clean
-from utils import get_pickle_path, write_to_pickle
-from utils import get_id, get_label, to_triplets, intersect, to_json
-from utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, write_readme, relabel
+from wikidatasets.utils import get_results, clean
+from wikidatasets.utils import get_pickle_path, write_to_pickle
+from wikidatasets.utils import get_id, get_label, to_triplets, intersect, to_json
+from wikidatasets.utils import concatpkls, write_csv, write_ent_dict, write_rel_dict, write_readme, relabel
 
 
 def get_subclasses(subject):
@@ -92,9 +92,10 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
 def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
     """
     Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
-    :param path: path to the directory where there should already be a pickle/ directory.
+    :param path: path to the directory where there should already be a pickles/ directory.
     In the latter directory, all the .pkl files will be concatenated into one dataset.
-    :param labels: dictionary coming from the function get_labels_dict
+    :param labels: dictionary collected by the query_wikidata_dump function when collect_labels is
+    set to True.
     :param return_: bool
     :param dump_date: str
     """
