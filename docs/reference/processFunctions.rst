@@ -10,15 +10,14 @@ Process functions include :
 .. currentmodule:: wikidatasets.processFunctions
 
 
-the get_subclasses function
----------------------------
-
+get_subclasses
+--------------
 .. autofunction:: wikidatasets.processFunctions.get_subclasses
 
-the query_wikidata_dump function
---------------------------------
+query_wikidata_dump
+-------------------
 .. autofunction:: wikidatasets.processFunctions.query_wikidata_dump
 
-the build_dataset function
---------------------------
+build_dataset
+-------------
 .. autofunction:: wikidatasets.processFunctions.build_dataset

@@ -1,13 +1,14 @@
-.. _data:
+.. _utils:
 
 
-Utils
-*****
+Utilities
+*********
+
+Utility functions include :
 
 .. currentmodule:: wikidatasets.utils
 
-Utils
------
+load_data_labels
+----------------
 
-.. automodule:: wikidatasets.utils
-
+.. autofunction:: wikidatasets.processFunctions.load_data_labels
