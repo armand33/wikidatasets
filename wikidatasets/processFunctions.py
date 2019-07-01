@@ -25,13 +25,10 @@ def get_subclasses(subject):
 
 def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_labels=False):
     """
-    :param dump_path: path to the latest-all.json.bz2 file downloaded from
-    https://dumps.wikimedia.org/wikidatawiki/entities/
+    :param dump_path: path to the latest-all.json.bz2 file downloaded from https://dumps.wikimedia.org/wikidatawiki/entities/
     :param path: path to where pickle files will be written.
-    :param n_lines: number of lines of the dump. Fastest way I found was
-    `$ bzgrep -c ".*" latest-all.json.bz2`
-    :param test_entities: list of entities to check if a line is instance of.
-    For each line (entity), we check if it as a fact of the type (id, query_rel, test_entity).
+    :param n_lines: number of lines of the dump. Fastest way I found was `$ bzgrep -c ".*" latest-all.json.bz2`
+    :param test_entities: list of entities to check if a line is instance of. For each line (entity), we check if it as a fact of the type (id, query_rel, test_entity).
     :param collect_labels:
     """
     pickle_path = get_pickle_path(path)
@@ -90,12 +87,10 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
 
 
 def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
-    """
-    Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
-    :param path: path to the directory where there should already be a pickles/ directory.
-    In the latter directory, all the .pkl files will be concatenated into one dataset.
-    :param labels: dictionary collected by the query_wikidata_dump function when collect_labels is
-    set to True.
+    """Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
+
+    :param path: path to the directory where there should already be a pickles/ directory. In the latter directory, all the .pkl files will be concatenated into one dataset.
+    :param labels: dictionary collected by the query_wikidata_dump function when collect_labels is set to True.
     :param return_: bool
     :param dump_date: str
     """
