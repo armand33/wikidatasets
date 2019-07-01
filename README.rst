@@ -42,10 +42,14 @@ If you find this code useful in your research, please consider citing our `paper
 
 @misc{arm2019wikidatasets,
     title={WikiDataSets : Standardized sub-graphs from WikiData},
+
     author={Armand Boschin},
+
     year={2019},
     eprint={1906.04536},
+
     archivePrefix={arXiv},
+
     primaryClass={cs.LG}
 }
 
