@@ -9,5 +9,4 @@ Process Functions
 Process Functions
 ---------------
 
-.. automodule:: torchkge.processFunctions
 .. automodule:: wikidatasets.processFunctions
