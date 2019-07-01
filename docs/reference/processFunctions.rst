@@ -4,9 +4,10 @@
 Process Functions
 *****************
 
-.. currentmodule:: torchkge.processFunctions
+.. currentmodule:: wikidatasets.processFunctions
 
 Process Functions
 ---------------
 
 .. automodule:: torchkge.processFunctions
+.. automodule:: wikidatasets.processFunctions

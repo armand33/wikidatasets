@@ -4,10 +4,10 @@
 Utils
 *****
 
-.. currentmodule:: torchkge.utils
+.. currentmodule:: wikidatasets.utils
 
 Utils
 -----
 
-.. automodule:: torchkge.utils
+.. automodule:: wikidatasets.utils
 
