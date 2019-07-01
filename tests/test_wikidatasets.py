@@ -6,8 +6,6 @@
 
 import unittest
 
-from wikidatasets import wikidatasets
-
 
 class TestWikidatasets(unittest.TestCase):
     """Tests for `wikidatasets` package."""
