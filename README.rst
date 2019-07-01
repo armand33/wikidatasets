@@ -32,6 +32,9 @@ Data sets are available on this `page <https://graphs.telecom-paristech.fr/Home_
 
 Features
 --------
+
+Process functions are included in the processFunctions.py file.
+
 The `example/` folder contains examples of scripts to create datasets (e.g. `build_humans.py <https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py>`_).
 Such scripts should be placed in the main directory (along with `utils.py`, `processFunctions.py`) and hard-coded paths should be tuned to match your installation.
 
