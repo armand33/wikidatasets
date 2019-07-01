@@ -87,12 +87,14 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
 
 
 def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
-    """Print dataset in path (includes 4 files : edges (kg), attributes, entities, relations.
+    """Saves dataset in path (includes 4 files : edges (kg), attributes, entities, relations).
 
-    :param path: path to the directory where there should already be a pickles/ directory. In the latter directory, all the .pkl files will be concatenated into one dataset.
-    :param labels: dictionary collected by the query_wikidata_dump function when collect_labels is set to True.
-    :param return_: bool
-    :param dump_date: str
+    :param path: type = str
+        Path to the directory where there should already be a pickles/ directory. In the latter directory, all the .pkl files will be concatenated into one dataset.
+    :param labels: type = dict
+        Dictionary collected by the query_wikidata_dump function when collect_labels is set to True.
+    :param return_: type = bool
+    :param dump_date: type = str
     """
     if path[-1] != '/':
         path = path+'/'

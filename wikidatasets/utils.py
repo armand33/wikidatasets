@@ -198,7 +198,7 @@ def write_readme(name, n_core_ents, n_attrib_ents,
 def load_data_labels(path, attributes=False, return_dicts=False):
     """This function loads dataframes with labels. TODO
 
-    :param path: 
+    :param path:
     :param attributes:
     :param return_dicts:
     :return:
