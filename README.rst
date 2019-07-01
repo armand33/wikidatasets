@@ -35,6 +35,22 @@ Features
 The `example/` folder contains examples of scripts to create datasets (e.g. `build_humans.py <https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py>`_).
 Such scripts should be placed in the main directory (along with `utils.py`, `processFunctions.py`) and hard-coded paths should be tuned to match your installation.
 
+Citations
+---------
+
+If you find this code useful in your research, please consider citing our [paper](https://arxiv.org/abs/1906.04536):
+
+```
+  @misc{arm2019wikidatasets,
+      title={WikiDataSets : Standardized sub-graphs from WikiData},
+      author={Armand Boschin},
+      year={2019},
+      eprint={1906.04536},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+  }
+```
+
 Credits
 -------
 
