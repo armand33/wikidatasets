@@ -27,7 +27,7 @@ setup(
         'Natural Language :: English',
         'Programming Language :: Python :: 3.7',
     ],
-    description="Code to parse WikiData dumps into smaller knowledge graphs (e.g. graph of human entities).",
+    description="Break WikiData dumps into smaller knowledge graphs",
     install_requires=requirements,
     license="BSD license",
     long_description=readme + '\n\n' + history,
