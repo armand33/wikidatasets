@@ -35,6 +35,7 @@ Features
 --------
 
 This is a non-exhaustive list of useful functions :
+
 * wikidatasets.processFunction.get_subclasses : Gets a list of WikiData IDs of entities which are subclasses of the subject.
 * wikidatasets.processFunction.query_wikidata_dump : Goes through a Wikidata dump. It can either collect entities that are instances of `test_entities` or collect the dictionary of labels. It can also do both.
 * wikidatasets.processFunction.build_dataset : Builds datasets from the pickle files produced by the query_wikidata_dump.
