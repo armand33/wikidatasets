@@ -2,7 +2,7 @@
 Usage
 =====
 
-To use WikiDataSets in a project::
+This is an example of how to build the subgraph of all human entities from WikiData::
 
     import pickle
     from wikidatasets.processFunctions import get_subclasses, query_wikidata_dump, build_dataset
@@ -14,7 +14,7 @@ To use WikiDataSets in a project::
     test_entities = get_subclasses('Q5')
 
     query_wikidata_dump(dump_path, path, n_lines,
-                        test_entities=test_entities, collect_labels=False)
+                        test_entities=test_entities, collect_labels=True)
 
     labels = pickle.load(open(path + 'labels.pkl', 'rb'))
     build_dataset(path, labels)
