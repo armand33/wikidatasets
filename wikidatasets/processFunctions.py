@@ -150,6 +150,10 @@ def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
     df['tailEntity'] = df['tailEntity'].apply(lambda x: ent2ix[x])
     df['relation'] = df['relation'].apply(lambda x: rel2ix[x])
 
+    nodes = pd.DataFrame([[i, ix2ent[i]] for i in range(len(ents))],
+                         columns=['entityID', 'wikidataID'])
+    nodes['label'] = nodes['wikidataID'].apply(relabel, args=(labels,))
+
     entities = pd.DataFrame([[i, ix2ent[i]] for i in range(len(ix2ent))],
                             columns=['entityID', 'wikidataID'])
     entities['label'] = entities['wikidataID'].apply(relabel, args=(labels,))
@@ -164,6 +168,7 @@ def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
 
     write_csv(edges, path + 'edges.txt')
     write_csv(attributes, path + 'attributes.txt')
+    write_ent_dict(nodes, path + 'nodes.txt')
     write_ent_dict(entities, path + 'entities.txt')
     write_rel_dict(relations, path + 'relations.txt')
     write_readme(path+'readme.txt',
