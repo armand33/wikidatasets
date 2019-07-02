@@ -4,7 +4,7 @@
 
 __author__ = """Armand Boschin"""
 __email__ = 'aboschin@enst.fr'
-__version__ = '0.1.1'
+__version__ = '0.1.2'
 
 from .processFunctions import get_subclasses
 from .processFunctions import query_wikidata_dump
