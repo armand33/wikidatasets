@@ -30,7 +30,7 @@ setup(
     description="Break WikiData dumps into smaller knowledge graphs",
     install_requires=requirements,
     license="BSD license",
-    # long_description=readme + '\n\n' + history,
+    long_description=readme + '\n\n' + history,
     include_package_data=True,
     keywords='wikidatasets',
     name='wikidatasets',
