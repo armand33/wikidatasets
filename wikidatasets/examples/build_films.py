@@ -1,5 +1,5 @@
 import pickle
-from processFunctions import get_subclasses, query_wikidata_dump, build_dataset
+from wikidatasets.processFunctions import get_subclasses, query_wikidata_dump, build_dataset
 
 # change the 4 following values to match your installation
 path = '../films/'  # this will contain the files output through the process

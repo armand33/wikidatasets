@@ -1,4 +1,4 @@
-from processFunctions import query_wikidata_dump
+from wikidatasets.processFunctions import query_wikidata_dump
 
 # change the 3 following values to match your installation
 path = '../'  # this will contain the files output through the process
