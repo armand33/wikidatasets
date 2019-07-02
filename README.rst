@@ -49,8 +49,8 @@ Citations
 
 If you find this code useful in your research, please consider citing our `paper <https://arxiv.org/abs/1906.04536>`_:
 
-.. code-block:: bash
-    :linenos:
+.. code-block::
+
     @misc{arm2019wikidatasets,
         title={WikiDataSets : Standardized sub-graphs from WikiData},
         author={Armand Boschin},
