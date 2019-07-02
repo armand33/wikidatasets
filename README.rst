@@ -41,8 +41,8 @@ This is a non-exhaustive list of useful functions :
 * wikidatasets.processFunction.build_dataset : Builds datasets from the pickle files produced by the query_wikidata_dump.
 * wikidatasets.utils.load_data_labels : Loads the edges and attributes files into Pandas dataframes and merges the labels of entities and relations to get.
 
-The `example/` folder contains examples of scripts to create datasets (e.g. `build_humans.py <https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py>`_).
-Such scripts should be placed in the main directory (along with `utils.py`, `processFunctions.py`) and hard-coded paths should be tuned to match your installation.
+The example/ folder contains examples of scripts to create datasets (e.g. `build_humans.py <https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py>`_).
+Such scripts should be placed in the main directory (along with utils.py, processFunctions.py) and hard-coded paths should be tuned to match your installation.
 
 Citations
 ---------
