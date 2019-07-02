@@ -11,9 +11,18 @@ from wikidatasets.utils import concatpkls, write_csv, write_ent_dict, write_rel_
 
 
 def get_subclasses(subject):
-    """
-    :param subject: String describing the subject (e.g. Q5 for human)
-    :return: list of WikiData IDs of entities which are subclasses of the subject.
+    """Get a list of WikiData IDs of entities which are subclasses of the subject.
+
+    Parameters
+    ----------
+    subject: str
+        String describing the subject (e.g. 'Q5' for human).
+
+    Returns
+    -------
+    result: list
+        List of WikiData IDs of entities which are subclasses of the subject.
+
     """
     endpoint_url = "https://query.wikidata.org/sparql"
     query = """SELECT ?item WHERE {?item wdt:P279* wd:""" + subject + """ .}"""
@@ -24,12 +33,22 @@ def get_subclasses(subject):
 
 
 def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_labels=False):
-    """
-    :param dump_path: path to the latest-all.json.bz2 file downloaded from https://dumps.wikimedia.org/wikidatawiki/entities/
-    :param path: path to where pickle files will be written.
-    :param n_lines: number of lines of the dump. Fastest way I found was `$ bzgrep -c ".*" latest-all.json.bz2`
-    :param test_entities: list of entities to check if a line is instance of. For each line (entity), we check if it as a fact of the type (id, query_rel, test_entity).
-    :param collect_labels:
+    """This function goes through a Wikidata dump. It can either collect entities that are instances of `test_entities` or collect the dictionary of labels. It can also do both.
+
+    Parameters
+    ----------
+    dump_path: str
+        Path to the latest-all.json.bz2 file downloaded from https://dumps.wikimedia.org/wikidatawiki/entities/.
+    path: str
+        Path to where pickle files will be written.
+    n_lines: int
+        Number of lines of the dump. Fastest way I found was `$ bzgrep -c ".*" latest-all.json.bz2`.
+        This can be an upper-bound as it is only used for displaying a progress bar.
+    test_entities: list
+        List of entities to check if a line is instance of. For each line (entity), we check if it as a fact of the type (id, query_rel, test_entity).
+    collect_labels: bool
+        Boolean indicating whether the labels dictionary should be collected.
+
     """
     pickle_path = get_pickle_path(path)
     collect_facts = (test_entities is not None)
@@ -87,15 +106,31 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
 
 
 def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
-    """Saves dataset in path (includes 4 files : edges (kg), attributes, entities, relations).
+    """Builds datasets from the pickle files produced by the query_wikidata_dump.
 
-    :param path: type = str
+    Parameters
+    ----------
+    path: str
         Path to the directory where there should already be a pickles/ directory. In the latter directory, all the .pkl files will be concatenated into one dataset.
-    :param labels: type = dict
+    labels: dict
         Dictionary collected by the query_wikidata_dump function when collect_labels is set to True.
-    :param return_: type = bool
-    :param dump_date: type = str
+    return_: bool
+        Boolean indicating if the built dataset should be returned on top of being written on disk.
+    dump_date: str
+        String indicating the date of the Wikidata dump used. It is used in the readme of the dataset.
+
+    Returns
+    -------
+    edges: pandas.DataFrame
+        DataFrame containing the edges between entities of the graph.
+    attributes: pandas.DataFrame
+        DataFrame containing edges linking entities to their attributes.
+    entities: pandas.DataFrame
+        DataFrame containing a list of all entities & attributes with their Wikidata IDs and labels.
+    relations: pandas.DataFrame
+        DataFrame containing a list of all relations with their Wikidata IDs and labels.
     """
+
     if path[-1] != '/':
         path = path+'/'
     path_pickle = path + 'pickles/'

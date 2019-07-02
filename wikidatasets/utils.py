@@ -30,9 +30,17 @@ def to_json(line):
 
 def concat_claims(claims):
     """
-    :param claims: dict
-    :return: iterator through the claims
+
+    Parameters
+    ----------
+    claims: dict
+
+    Returns
+    -------
+    iter: iterator
+        iterator through the claims
     """
+
     for rel_id, rel_claims in claims.items():
         for claim in rel_claims:
             yield claim
@@ -40,8 +48,16 @@ def concat_claims(claims):
 
 def to_triplets(ent):
     """
-    :param ent: dict coming from the parsing of a json line of the dump
-    :return: list of triplets of this entity (head, rel, tail)
+
+    Parameters
+    ----------
+    ent: dict
+        Dictionary coming from the parsing of a json line of the dump.
+
+    Returns
+    -------
+    triplets: list
+        List of triplets of this entity (head, rel, tail).
     """
     if len(ent['claims']) == 0:
         return []
@@ -72,9 +88,18 @@ def get_id(ent):
 
 def get_label(ent):
     """
-    :param ent: dict coming from the parsing of a json line of the dump
-    :return: string label of ent in english if available of any other language else
+
+    Parameters
+    ----------
+    ent: dict
+        Dictionary coming from the parsing of a json line of the dump.
+
+    Returns
+    -------
+    label: str
+        Label of ent in english if available of any other language else.
     """
+
     labels = ent['labels']
     if len(labels) == 0:
         return 'No label {}'.format(ent['id'])
@@ -196,13 +221,27 @@ def write_readme(name, n_core_ents, n_attrib_ents,
 
 
 def load_data_labels(path, attributes=False, return_dicts=False):
-    """This function loads dataframes with labels. TODO
+    """This function loads the edges and attributes files into Pandas dataframes and merges the labels of entities and relations to get.
 
-    :param path:
-    :param attributes:
-    :param return_dicts:
-    :return:
+    Parameters
+    ----------
+    path: str
+        Path to the directory containing the edges.txt, attributes.txt, entities.txt, relations.txt files.
+    attributes: bool
+        Boolean indicating if we should read the attributes files. If False, then the edges file is read.
+    return_dicts: bool
+        Boolean indicating if the entities and relations labels dictionaries should be returned.
+
+    Returns
+    -------
+    df: pandas.DataFrame
+        DataFrame containing either the edges or the attributes depending on the value of `attributes`.
+    entities: pandas.DataFrame
+        DataFrame containing the list of all entities and wikidata IDs and labels.
+    relations: pandas.DataFrame
+        DataFrame containing the list of all relations and wikidata IDs and labels.
     """
+
     if attributes:
         df = pd.read_csv(path + 'attributes.txt', sep='\t', header=1,
                          names=['headEntity', 'tailEntity', 'relation'])
