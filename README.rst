@@ -51,7 +51,6 @@ If you find this code useful in your research, please consider citing our `paper
 
 .. code-block::
 
-
     @article{boschin_wikidatasets_2019,
         title = {{WikiDataSets} : {Standardized} sub-graphs from {WikiData}},
         shorttitle = {{WikiDataSets}},
