@@ -51,13 +51,17 @@ If you find this code useful in your research, please consider citing our `paper
 
 .. code-block::
 
-    @misc{arm2019wikidatasets,
-        title={WikiDataSets : Standardized sub-graphs from WikiData},
-        author={Armand Boschin},
-        year={2019},
-        eprint={1906.04536},
-        archivePrefix={arXiv},
-        primaryClass={cs.LG}
+
+    @article{boschin_wikidatasets_2019,
+        title = {{WikiDataSets} : {Standardized} sub-graphs from {WikiData}},
+        shorttitle = {{WikiDataSets}},
+        url = {http://arxiv.org/abs/1906.04536},
+        journal = {arXiv:1906.04536 [cs, stat]},
+        author = {Boschin, Armand and Bonald, Thomas},
+        month = jun,
+        year = {2019},
+        note = {arXiv: 1906.04536},
+        keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Computer Science - Social and Information Networks, Statistics - Machine Learning},
     }
 
 Credits
