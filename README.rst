@@ -29,7 +29,7 @@ Breaking WikiData dumps into smaller knowledge graphs (e.g. graph of human entit
 
 Data Sets
 ---------
-Data sets are available on this `page <https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section)>`_.
+Data sets are available on this `page <https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section>`_.
 
 Features
 --------
@@ -67,6 +67,5 @@ Credits
 -------
 
 This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
