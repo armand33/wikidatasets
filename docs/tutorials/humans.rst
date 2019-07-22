@@ -1,8 +1,8 @@
-=====
-Usage
-=====
+===============
+Human sub-graph
+===============
 
-This is an example of how to build the subgraph of all human entities from WikiData::
+This is an example of how to build the sub-graph of all human entities from WikiData::
 
     import pickle
     from wikidatasets.processFunctions import get_subclasses, query_wikidata_dump, build_dataset
