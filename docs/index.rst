@@ -1,20 +1,31 @@
 Welcome to WikiDataSets's documentation!
-======================================
+========================================
+
+.. include:: readme.rst
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Tutorials:
 
-   readme
+   tutorials/humans
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Reference:
+
+   reference/processFunctions
+   reference/utils
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Installation:
+
    installation
-   usage
-   reference/index
+
+.. toctree::
+   :maxdepth: 1
+   :caption: About:
+
    contributing
    authors
    history
-
-Indices and tables
-==================
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`

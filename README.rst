@@ -26,30 +26,15 @@ Breaking WikiData dumps into smaller knowledge graphs (e.g. graph of human entit
 * Free software: BSD license
 * Documentation: https://wikidatasets.readthedocs.io.
 * Paper: https://arxiv.org/abs/1906.04536
-
-Data Sets
----------
-Data sets are available on this `page <https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section>`_.
-
-Features
---------
-
-This is a non-exhaustive list of useful functions :
-
-* ``wikidatasets.processFunction.get_subclasses`` : Gets a list of WikiData IDs of entities which are subclasses of the subject.
-* ``wikidatasets.processFunction.query_wikidata_dump`` : Goes through a Wikidata dump. It can either collect entities that are instances of test_entities or collect the dictionary of labels. It can also do both.
-* ``wikidatasets.processFunction.build_dataset`` : Builds datasets from the pickle files produced by the query_wikidata_dump.
-* ``wikidatasets.utils.load_data_labels`` : Loads the edges and attributes files into Pandas dataframes and merges the labels of entities and relations to get.
-
-The example/ folder contains examples of scripts to create datasets (e.g. `build_humans.py <https://github.com/armand33/WikiDataSets/blob/master/examples/build_humans.py>`_).
-Such scripts should be placed in the main directory (along with ``utils.py``, ``processFunctions.py``) and hard-coded paths should be tuned to match your installation.
+* Dataset downloads: `here <https://graphs.telecom-paristech.fr/Home_page.html#wikidatasets-section>`_
 
 Citations
 ---------
-
 If you find this code useful in your research, please consider citing our `paper <https://arxiv.org/abs/1906.04536>`_:
 
-.. code-block::
+.. highlight:: c
+
+::
 
     @article{boschin_wikidatasets_2019,
         title = {{WikiDataSets} : {Standardized} sub-graphs from {WikiData}},
@@ -62,11 +47,3 @@ If you find this code useful in your research, please consider citing our `paper
         note = {arXiv: 1906.04536},
         keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Computer Science - Social and Information Networks, Statistics - Machine Learning},
     }
-
-Credits
--------
-
-This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypackage`_ project template.
-
-.. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
