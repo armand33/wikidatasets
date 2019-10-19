@@ -11,4 +11,4 @@ twine==1.13.0
 
 tqdm==4.32.2
 sparqlwrapper==1.8.4
-pandas==0.25.0
+pandas==0.25.2
