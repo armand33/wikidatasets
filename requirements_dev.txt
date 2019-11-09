@@ -9,6 +9,6 @@ Sphinx==2.2.1
 sphinx_rtd_theme==0.4.3
 twine==2.0.0
 
-tqdm==4.37.0
+tqdm==4.38.0
 sparqlwrapper==1.8.4
 pandas==0.25.3
