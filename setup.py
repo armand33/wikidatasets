@@ -8,9 +8,6 @@ from setuptools import setup, find_packages
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-with open('HISTORY.rst') as history_file:
-    history = history_file.read()
-
 requirements = ['tqdm==4.32.2', 'sparqlwrapper==1.8.2', 'pandas==0.24.1']
 
 setup_requirements = []
@@ -30,7 +27,7 @@ setup(
     description="Break WikiData dumps into smaller knowledge graphs",
     install_requires=requirements,
     license="BSD license",
-    long_description=readme + '\n\n' + history,
+    long_description=readme,
     include_package_data=True,
     keywords='wikidatasets',
     name='wikidatasets',
