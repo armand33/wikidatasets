@@ -2,7 +2,6 @@
 WikiDataSets
 ============
 
-
 .. image:: https://img.shields.io/pypi/v/wikidatasets.svg
         :target: https://pypi.python.org/pypi/wikidatasets
 
@@ -13,12 +12,9 @@ WikiDataSets
         :target: https://wikidatasets.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
 .. image:: https://pyup.io/repos/github/armand33/wikidatasets/shield.svg
      :target: https://pyup.io/repos/github/armand33/wikidatasets/
      :alt: Updates
-
-
 
 Breaking WikiData dumps into smaller knowledge graphs (e.g. graph of human entities).
 
@@ -32,9 +28,7 @@ Citations
 ---------
 If you find this code useful in your research, please consider citing our `paper <https://arxiv.org/abs/1906.04536>`_:
 
-.. highlight:: c
-
-::
+.. code-block::
 
     @article{boschin_wikidatasets_2019,
         title = {{WikiDataSets} : {Standardized} sub-graphs from {WikiData}},
