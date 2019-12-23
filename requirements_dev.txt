@@ -13,5 +13,5 @@ wheel==0.33.6
 
 # Development
 tqdm==4.40.0
-sparqlwrapper==1.8.4
+sparqlwrapper==1.8.5
 pandas==0.25.3
