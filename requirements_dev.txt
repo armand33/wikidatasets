@@ -9,7 +9,7 @@ tox==3.14.3
 # Deployment
 pip==20.0
 bumpversion==0.5.3
-wheel==0.33.6
+wheel==0.34.2
 
 # Development
 tqdm==4.41.1
