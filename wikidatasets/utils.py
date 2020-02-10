@@ -147,7 +147,7 @@ def write_to_pickle(pickle_path, facts, fails, n_pickle_dump):
 def intersect(long_list, short_list):
     return len(set(long_list).intersection(set(short_list))) > 0
 
-    
+
 def count_true_fails(fails):
     true_fails = 0
     for f in fails:
@@ -182,7 +182,7 @@ def concatpkls(n_dump, path_pickle, labels=None):
 
 
 def write_csv(df, name):
-    with open(name, 'w') as f:
+    with open(name, 'w', encoding='utf-8') as f:
         f.write('# Entities: {} \t Relations: {} \t Facts: {}\n'.format(
             len(set(df.headEntity).union(set(df.tailEntity))),
             df.relation.nunique(), len(df)))
@@ -191,14 +191,14 @@ def write_csv(df, name):
 
 
 def write_ent_dict(df, name):
-    with open(name, 'w') as f:
+    with open(name, 'w', encoding='utf-8') as f:
         f.write('# Entities: {}\n'.format(len(df)))
         f.write('entityID\twikidataID\tlabel\n')
         df.to_csv(f, sep='\t', header=False, index=False)
 
 
 def write_rel_dict(df, name):
-    with open(name, 'w') as f:
+    with open(name, 'w', encoding='utf-8') as f:
         f.write('# Relations: {}\n'.format(len(df)))
         f.write('relationID\twikidataID\tlabel\n')
         df.to_csv(f, sep='\t', header=False, index=False)
@@ -208,7 +208,7 @@ def write_readme(name, n_core_ents, n_attrib_ents,
                  n_core_rels, n_attrib_rels,
                  n_core_facts, n_attrib_facts,
                  dump_date):
-    with open(name, 'w') as f:
+    with open(name, 'w', encoding='utf-8') as f:
         f.write('Built with WikiData dump from {}.\n'.format(dump_date))
         f.write("Here are some meta data about this data set:\n")
         f.write("Core entities: {}\n".format(n_core_ents))
