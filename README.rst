@@ -31,13 +31,13 @@ If you find this code useful in your research, please consider citing our `paper
 .. code-block::
 
     @article{boschin_wikidatasets_2019,
-        title = {{WikiDataSets} : {Standardized} sub-graphs from {WikiData}},
+        title = {{WikiDataSets}: {Standardized} sub-graphs from {Wikidata}},
         shorttitle = {{WikiDataSets}},
         url = {http://arxiv.org/abs/1906.04536},
         journal = {arXiv:1906.04536 [cs, stat]},
         author = {Boschin, Armand and Bonald, Thomas},
-        month = jun,
+        month = oct,
         year = {2019},
         note = {arXiv: 1906.04536},
-        keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Computer Science - Social and Information Networks, Statistics - Machine Learning},
+        keywords = {Computer Science - Artificial Intelligence, Computer Science - Machine Learning, Computer Science - Social and Information Networks, Statistics - Machine Learning}
     }
