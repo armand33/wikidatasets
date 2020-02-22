@@ -1,5 +1,5 @@
 # Documentation
-Sphinx==2.4.1
+Sphinx==2.4.3
 sphinx_rtd_theme==0.4.3
 
 # Tests
