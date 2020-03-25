@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
-requirements = ['tqdm==4.32.2', 'sparqlwrapper==1.8.2', 'pandas==0.24.1']
+requirements = ['tqdm>=4.43', 'sparqlwrapper>=1.8.5', 'pandas>=1.0.3']
 
 setup_requirements = []
 
