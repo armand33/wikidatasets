@@ -183,23 +183,18 @@ def concatpkls(n_dump, path_pickle, labels=None):
 
 def write_csv(df, name):
     with open(name, 'w', encoding='utf-8') as f:
-        f.write('# Entities: {} \t Relations: {} \t Facts: {}\n'.format(
-            len(set(df.headEntity).union(set(df.tailEntity))),
-            df.relation.nunique(), len(df)))
         f.write('headEntity\ttailEntity\trelation\n')
         df.to_csv(f, sep='\t', header=False, index=False)
 
 
 def write_ent_dict(df, name):
     with open(name, 'w', encoding='utf-8') as f:
-        f.write('# Entities: {}\n'.format(len(df)))
         f.write('entityID\twikidataID\tlabel\n')
         df.to_csv(f, sep='\t', header=False, index=False)
 
 
 def write_rel_dict(df, name):
     with open(name, 'w', encoding='utf-8') as f:
-        f.write('# Relations: {}\n'.format(len(df)))
         f.write('relationID\twikidataID\tlabel\n')
         df.to_csv(f, sep='\t', header=False, index=False)
 
@@ -214,14 +209,17 @@ def write_readme(name, n_core_ents, n_attrib_ents,
         f.write("Core entities: {}\n".format(n_core_ents))
         f.write("Attribute entities: {}\n".format(n_attrib_ents))
         f.write("Core relations: {} (number of different relations involving only core entities)\n".format(n_core_rels))
-        f.write("Attribute relations: {} (number of different relations from core entities to attribute entities)\n".format(n_attrib_rels))
+        f.write("Attribute relations: {} (number of different relations from core entities "
+                "to attribute entities)\n".format(n_attrib_rels))
         f.write("Core facts: {} (facts involving only core entities)\n".format(n_core_facts))
-        f.write("Attribute facts : {} (facts linking core entities to their attribute entities)\n".format(n_attrib_facts))
+        f.write("Attribute facts : {} (facts linking core entities "
+                "to their attribute entities)\n".format(n_attrib_facts))
         f.write("Find more details about this dataset at https://arxiv.org/abs/1906.04536.")
 
 
 def load_data_labels(path, attributes=False, return_dicts=False):
-    """This function loads the edges and attributes files into Pandas dataframes and merges the labels of entities and relations to get.
+    """This function loads the edges and attributes files into Pandas dataframes and merges the labels of entities and \
+    relations to get.
 
     Parameters
     ----------
@@ -243,16 +241,12 @@ def load_data_labels(path, attributes=False, return_dicts=False):
     """
 
     if attributes:
-        df = pd.read_csv(path + 'attributes.txt', sep='\t', header=1,
-                         names=['headEntity', 'tailEntity', 'relation'])
+        df = pd.read_csv(path + 'attributes.tsv', sep='\t')
     else:
-        df = pd.read_csv(path + 'edges.txt', sep='\t', header=1,
-                         names=['headEntity', 'tailEntity', 'relation'])
+        df = pd.read_csv(path + 'edges.tsv', sep='\t')
 
-    entities = pd.read_csv(path + 'entities.txt', sep='\t', header=1,
-                           names=['entityID', 'wikidataID', 'label'])
-    relations = pd.read_csv(path + 'relations.txt', sep='\t', header=1,
-                            names=['relationID', 'wikidataID', 'label'])
+    entities = pd.read_csv(path + 'entities.tsv', sep='\t')
+    relations = pd.read_csv(path + 'relations.tsv', sep='\t')
 
     df = pd.merge(left=df, right=entities[['entityID', 'label']], left_on='headEntity',
                   right_on='entityID')

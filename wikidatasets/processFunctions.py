@@ -33,7 +33,8 @@ def get_subclasses(subject):
 
 
 def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_labels=False):
-    """This function goes through a Wikidata dump. It can either collect entities that are instances of `test_entities` or collect the dictionary of labels. It can also do both.
+    """This function goes through a Wikidata dump. It can either collect entities that are instances of \
+    `test_entities` or collect the dictionary of labels. It can also do both.
 
     Parameters
     ----------
@@ -45,7 +46,8 @@ def query_wikidata_dump(dump_path, path, n_lines, test_entities=None, collect_la
         Number of lines of the dump. Fastest way I found was `$ bzgrep -c ".*" latest-all.json.bz2`.
         This can be an upper-bound as it is only used for displaying a progress bar.
     test_entities: list
-        List of entities to check if a line is instance of. For each line (entity), we check if it as a fact of the type (id, query_rel, test_entity).
+        List of entities to check if a line is instance of. For each line (entity), we check if it as a fact of the \
+        type (id, query_rel, test_entity).
     collect_labels: bool
         Boolean indicating whether the labels dictionary should be collected.
 
@@ -111,7 +113,8 @@ def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
     Parameters
     ----------
     path: str
-        Path to the directory where there should already be a pickles/ directory. In the latter directory, all the .pkl files will be concatenated into one dataset.
+        Path to the directory where there should already be a pickles/ directory. In the latter directory, all \
+        the .pkl files will be concatenated into one dataset.
     labels: dict
         Dictionary collected by the query_wikidata_dump function when collect_labels is set to True.
     return_: bool
@@ -166,12 +169,12 @@ def build_dataset(path, labels, return_=False, dump_date='23rd April 2019'):
     edges = df.loc[edges_mask, ['headEntity', 'tailEntity', 'relation']]
     attributes = df.loc[~edges_mask, ['headEntity', 'tailEntity', 'relation']]
 
-    write_csv(edges, path + 'edges.txt')
-    write_csv(attributes, path + 'attributes.txt')
-    write_ent_dict(nodes, path + 'nodes.txt')
-    write_ent_dict(entities, path + 'entities.txt')
-    write_rel_dict(relations, path + 'relations.txt')
-    write_readme(path+'readme.txt',
+    write_csv(edges, path + 'edges.tsv')
+    write_csv(attributes, path + 'attributes.tsv')
+    write_ent_dict(nodes, path + 'nodes.tsv')
+    write_ent_dict(entities, path + 'entities.tsv')
+    write_rel_dict(relations, path + 'relations.tsv')
+    write_readme(path+'readme.md',
                  n_core_ents=attributes['headEntity'].nunique(),
                  n_attrib_ents=attributes['tailEntity'].nunique(),
                  n_core_rels=edges['relation'].nunique(),
