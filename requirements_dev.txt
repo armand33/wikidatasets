@@ -4,7 +4,7 @@ sphinx_rtd_theme==0.4.3
 
 # Tests
 flake8==3.7.9
-tox==3.14.6
+tox==3.17.1
 
 # Deployment
 pip==20.0.2
