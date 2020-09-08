@@ -7,7 +7,7 @@ flake8==3.8.3
 tox==3.20.0
 
 # Deployment
-pip==20.2.2
+pip==20.2.3
 bumpversion==0.6.0
 wheel==0.35.1
 
