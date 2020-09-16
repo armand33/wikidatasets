@@ -6,7 +6,7 @@ WikiDataSets
         :target: https://pypi.python.org/pypi/wikidatasets
 
 .. image:: https://img.shields.io/travis/armand33/wikidatasets.svg
-        :target: https://travis-ci.org/armand33/wikidatasets
+        :target: https://travis-ci.com/armand33/wikidatasets
 
 .. image:: https://readthedocs.org/projects/wikidatasets/badge/?version=latest
         :target: https://wikidatasets.readthedocs.io/en/latest/?badge=latest
